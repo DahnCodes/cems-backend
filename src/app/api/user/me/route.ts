@@ -7,29 +7,19 @@ export async function GET(req: Request) {
   try {
     await connectDB();
 
-    // 1. Get token from headers
     const authHeader = req.headers.get("authorization");
 
-    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    if (!authHeader) {
       return NextResponse.json(
-        { message: "Unauthorized" },
+        { message: "No token provided" },
         { status: 401 }
       );
     }
 
     const token = authHeader.split(" ")[1];
 
-    // 2. Verify token
     const decoded = verifyToken(token);
 
-    if (!decoded?.userId) {
-      return NextResponse.json(
-        { message: "Invalid token" },
-        { status: 401 }
-      );
-    }
-
-    // 3. Fetch user
     const user = await User.findById(decoded.userId).select("-password");
 
     if (!user) {
@@ -40,11 +30,15 @@ export async function GET(req: Request) {
     }
 
     return NextResponse.json({
-      success: true,
-      user,
+      user: {
+        id: user._id,
+        fullName: user.fullName,
+        email: user.email,
+        role: user.role,
+      },
     });
   } catch (err) {
-    console.error("GET /user/me error:", err);
+    console.error("ME ROUTE ERROR:", err);
 
     return NextResponse.json(
       { message: "Server error" },
