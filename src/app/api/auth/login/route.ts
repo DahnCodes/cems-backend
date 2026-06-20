@@ -38,11 +38,11 @@ export async function POST(req: Request) {
       role: user.role,
       email: user.email,
     })
-    const isProd = process.env.NODE_ENV === 'production'
+    
     // 4. Store in HttpOnly cookie
     ;(await cookies()).set('token', token, {
       httpOnly: true,
-      secure: isProd,
+      secure: true,
       sameSite: 'none',
       path: '/',
     })
