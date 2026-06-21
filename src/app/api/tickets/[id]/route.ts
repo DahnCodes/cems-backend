@@ -13,6 +13,8 @@ export async function GET(
     const { id } = await context.params
 
     const ticket = await Ticket.findById(id)
+      .populate('eventId', 'title eventDate venue')
+      .populate('userId', 'fullName email');
 
     if (!ticket) {
       return NextResponse.json({ message: 'Ticket not found' }, { status: 404 })
