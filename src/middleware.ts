@@ -15,7 +15,7 @@ export function middleware(req: NextRequest) {
   if (origin && allowedOrigins.includes(origin)) {
     response.headers.set("Access-Control-Allow-Origin", origin);
   } else {
-    response.headers.set("Access-Control-Allow-Origin", "http://localhost:3000");
+    response.headers.set("Access-Control-Allow-Origin", "https://kampuslink.vercel.app/");
   }
 
   response.headers.set("Access-Control-Allow-Credentials", "true");
