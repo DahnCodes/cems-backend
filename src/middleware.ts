@@ -3,7 +3,7 @@ import type { NextRequest } from "next/server";
 
 const allowedOrigins = [
   "http://localhost:3000",
-  "https://kampuslink.vercel.app/",
+  "https://kampuslink.vercel.app",
 ];
 
 export function middleware(req: NextRequest) {
